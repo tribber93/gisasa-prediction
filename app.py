@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import tensorflow as tf
@@ -16,6 +17,10 @@ CLASS_NAMES = ['baik', 'rusak_ringan', 'rusak_sedang', 'rusak_berat']
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/', methods=['GET'])
+def home():
+    return "Server is running."
 
 @app.route('/predict-base64', methods=['POST'])
 def predict_base64():
@@ -63,5 +68,5 @@ def predict_base64():
         return jsonify({"error": "Prediction error"}), 500
 
 if __name__ == '__main__':
-    # Jalankan Flask di port 5000 (default)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Jalankan Flask di port 8080 (default)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)), debug=True)
