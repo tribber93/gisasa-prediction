@@ -70,4 +70,4 @@ def predict_base64():
 
 if __name__ == '__main__':
     # Jalankan Flask di port 8080 (default)
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)), debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
