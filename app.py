@@ -23,6 +23,7 @@ def home():
     return "Server is running."
 
 @app.route('/predict-base64', methods=['POST'])
+@cross_origin()
 def predict_base64():
     """
     Menerima JSON: { "image": "data:image/jpeg;base64,..." }
