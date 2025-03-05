@@ -18,6 +18,12 @@ CLASS_NAMES = ['baik', 'rusak_ringan', 'rusak_sedang', 'rusak_berat']
 app = Flask(__name__)
 CORS(app)
 
+@app.before_request
+def redirect_to_https():
+    """Pastikan semua request tetap di HTTPS"""
+    if request.headers.get("X-Forwarded-Proto", "http") != "https":
+        return jsonify({"error": "Please use HTTPS"}), 403
+    
 @app.after_request
 def add_cors_headers(response):
     response.headers["Access-Control-Allow-Origin"] = "https://gisasa.com/"
@@ -30,7 +36,7 @@ def add_cors_headers(response):
 def home():
     return "Server is running."
 
-@app.route('/predict-base64/', methods=['POST'])
+@app.route('/predict-base64', methods=['POST'])
 def predict_base64():
     """
     Menerima JSON: { "image": "data:image/jpeg;base64,..." }
