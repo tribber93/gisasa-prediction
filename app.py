@@ -67,6 +67,13 @@ def predict_base64():
     except Exception as e:
         print("Error during prediction:", e)
         return jsonify({"error": "Prediction error"}), 500
+    
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"  # Bisa diganti ke 'https://gisasa.com'
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
 
 if __name__ == '__main__':
     # Jalankan Flask di port 8080 (default)
