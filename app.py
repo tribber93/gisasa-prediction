@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import tensorflow as tf
 import numpy as np
 import base64
@@ -23,7 +23,7 @@ def home():
     return "Server is running."
 
 @app.route('/predict-base64', methods=['POST'])
-@cross_origin()
+@cross_origin(origin='*')
 def predict_base64():
     """
     Menerima JSON: { "image": "data:image/jpeg;base64,..." }
