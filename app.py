@@ -29,7 +29,7 @@ def add_cors_headers(response):
 def home():
     return "Server is running."
 
-@app.route('/predict-base64', methods=['POST'])
+@app.route('/predict-base64/', methods=['POST'])
 def predict_base64():
     """
     Menerima JSON: { "image": "data:image/jpeg;base64,..." }
