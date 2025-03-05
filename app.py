@@ -16,14 +16,13 @@ print("Model loaded successfully")
 CLASS_NAMES = ['baik', 'rusak_ringan', 'rusak_sedang', 'rusak_berat']
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.route('/', methods=['GET'])
 def home():
     return "Server is running."
 
 @app.route('/predict-base64', methods=['POST'])
-@cross_origin(origin='*')
 def predict_base64():
     """
     Menerima JSON: { "image": "data:image/jpeg;base64,..." }
@@ -67,13 +66,6 @@ def predict_base64():
     except Exception as e:
         print("Error during prediction:", e)
         return jsonify({"error": "Prediction error"}), 500
-    
-@app.after_request
-def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"  # Bisa diganti ke 'https://gisasa.com'
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    return response
 
 if __name__ == '__main__':
     # Jalankan Flask di port 8080 (default)
