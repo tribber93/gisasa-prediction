@@ -16,7 +16,14 @@ print("Model loaded successfully")
 CLASS_NAMES = ['baik', 'rusak_ringan', 'rusak_sedang', 'rusak_berat']
 
 app = Flask(__name__)
-CORS(app, resources={r"*": {"origins": "*"}})
+CORS(app)
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
 
 @app.route('/', methods=['GET'])
 def home():
@@ -61,7 +68,8 @@ def predict_base64():
         predicted_class = CLASS_NAMES[max_index]
 
         # 6. Return JSON
-        return jsonify({"predictedClass": predicted_class})
+        response = jsonify({"predictedClass": predicted_class})
+        return add_cors_headers(response)
 
     except Exception as e:
         print("Error during prediction:", e)
